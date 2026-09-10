@@ -19,8 +19,10 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
-        run: pip install requests pillow
-      - name: Fetch first image from each Shopee product page
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Screenshot first image from each individual Shopee product page
         run: python scripts/sync_shopee_images.py
       - name: Commit synced product covers
         if: always()
