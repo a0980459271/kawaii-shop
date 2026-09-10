@@ -20,19 +20,19 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: |
-          pip install playwright
+          pip install requests playwright
           python -m playwright install --with-deps chromium
-      - name: Screenshot first image from each individual Shopee product page
+      - name: Inspect first image data from each individual Shopee product page
         run: python scripts/sync_shopee_images.py
-      - name: Commit synced product covers
+      - name: Commit sync diagnostics and product covers
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/products || true
           if git diff --cached --quiet; then
-            echo 'No image changes to commit'
+            echo 'No changes to commit'
           else
-            git commit -m 'Sync Shopee single-product cover images'
+            git commit -m 'Inspect Shopee single-product image data'
             git push
           fi
